@@ -2,18 +2,22 @@
 const http = require('http');
 // サーバーを作成
 const server = http.createServer((req, res) => {
-  // HTTPレスポンスヘッダを書き込む
+  // 情報のログとエラーログをコンソールに出力
+  console.info(`[${new Date()}] Requested by ${req.connection.remoteAddress}`);
   res.writeHead(200, {
-    'Content-Type': 'text/html; charset=utf-8'
+    'Content-Type': 'text/plain; charset=utf-8'
   });
-  // HTTPレスポンスの内容（本文）を書きだす
-  res.write('<!DOCTYPE html><html lang="ja"><body><h1>HTMLの一番大きい見出しを表示します</h1></body></html>');
-  // レスポンスの書き出しを終了
+  res.write(req.headers['user-agent']);
   res.end();
+}).on('error', (e) => {
+  console.error(`[${new Date()}] Server Error`, e);
+}).on('clientError', (e) => {
+  console.error(`[${new Date()}] Client Error`, e);
 });
+
 const port = 8000;
 
 // HTTPサーバーを起動
 server.listen(port, () => {
-  console.log(`ポート ${port} 番でサーバーを起動しました`);
+  console.info(`[${new Date()}] ポート ${port} 番でサーバーを起動しました`);
 });
