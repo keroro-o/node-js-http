@@ -11,25 +11,28 @@ const server = http.createServer((req, res) => {
 
   switch (req.method) {
     case 'GET':
-      res.write('GET ' + req.url);
+      res.write(`GET ${req.url}`);
       break;
     case 'POST':
-      res.write('POST ' + req.url);
+      res.write(`POST ${req.url}`);
       let rawData = '';
       req.on('data', (chunk) => {
         rawData = rawData + chunk;
       }).on('end', () => {
-        console.info('[' + now + '] Data posted: ' + rawData);
+        console.info(`[${now}] Data posted: ${rawData}`);
       });
+      break;
+    case 'DELETE':
+      res.write(`DELETE ${req.url}`);
       break;
     default:
       break;
   }
   res.end();
 }).on('error', (e) => {
-  console.error('[' + new Date() + '] Server Error', e);
+  console.error(`[${new Date()}] Server Error`, e);
 }).on('clientError', (e) => {
-  console.error('[' + new Date() + '] Client Error', e);
+  console.error(`[${new Date()}] Client Error`, e);
 });
 
 const port = 8000;
