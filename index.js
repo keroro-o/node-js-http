@@ -16,12 +16,13 @@ const server = http.createServer((req, res) => {
       rs.pipe(res);
       break;
     case 'POST':
-      res.write(`POST ${req.url}`);
       let rawData = '';
       req.on('data', (chunk) => {
         rawData = rawData + chunk;
       }).on('end', () => {
-        console.info(`[${now}] Data posted: ${rawData}`);
+        const decoded = decodeURIComponent(rawData);  // URLエンコードされた値を元のものに直し変数に代入
+        console.info(`[${now}] 投稿： ${decoded}`);
+        res.write(`<!DOCTYPE html><html lang="ja"><body><h1>${decoded} が投稿されました</h1></body></html>`);
         res.end();
       });
       break;
@@ -42,5 +43,5 @@ const port = 8000;
 
 // HTTPサーバーを起動
 server.listen(port, () => {
-  console.info(`[${new Date()}]ポート ${port} 番でサーバーを起動しました`);
+  console.info(`[${new Date()}] ポート ${port} 番でサーバーを起動しました`);
 });
