@@ -1,9 +1,16 @@
 'use strict';
 const http = require('http');
 const pug = require('pug');
+const auth = require('http-auth');
+const basic = auth.basic(
+  { realm: 'Enquetes Area.' },
+  (username, password, callback) => {
+    callback(username === 'guest' && password === 'xaXZJQmE');
+  }
+);
 
 // サーバーを作成
-const server = http.createServer((req, res) => {
+const server = http.createServer(basic, (req, res) => {
   // 情報のログとエラーログをコンソールに出力
   console.info(`Requested by ${req.connection.remoteAddress}`);
   res.writeHead(200, {
