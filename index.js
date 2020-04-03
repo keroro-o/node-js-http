@@ -13,6 +13,16 @@ const basic = auth.basic(
 const server = http.createServer(basic, (req, res) => {
   // 情報のログとエラーログをコンソールに出力
   console.info(`Requested by ${req.connection.remoteAddress}`);
+
+  // パスが'/logout'の時に、ステータスコード401-Unauthorized を返す
+  if (req.url === '/logout') {
+    res.writeHead(401, {
+      'Content-Type': 'text/plain; charset=utf-8'
+    });
+    res.end('ログアウトしました');
+    return;
+  }
+
   res.writeHead(200, {
     'Content-Type': 'text/html; charset=utf-8'
   });
