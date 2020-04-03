@@ -13,7 +13,7 @@ const server = http.createServer((req, res) => {
 
   switch (req.method) {
     case 'GET':
-      if (req.url === '/enquetes/yaki-syabu') {
+      if (req.url === '/enquetes/yaki-shabu') {
         res.write(pug.renderFile('./form.pug', {
           path: req.url,
           firstItem: '焼き肉',
@@ -58,7 +58,7 @@ const server = http.createServer((req, res) => {
   console.error(`[${new Date()}] Client Error`, e);
 });
 
-const port = 8000;
+const port = process.env.PORT || 8000;
 
 // HTTPサーバーを起動
 server.listen(port, () => {
