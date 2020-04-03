@@ -1,5 +1,7 @@
 'use strict';
 const http = require('http');
+const pug = require('pug');
+
 // サーバーを作成
 const server = http.createServer((req, res) => {
   // 情報のログとエラーログをコンソールに出力
@@ -11,9 +13,8 @@ const server = http.createServer((req, res) => {
 
   switch (req.method) {
     case 'GET':
-      const fs = require('fs');
-      const rs = fs.createReadStream('./form.html');
-      rs.pipe(res);
+      res.write(pug.renderFile('./form.pug'));
+      res.end();
       break;
     case 'POST':
       let rawData = '';
